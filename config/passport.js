@@ -8,14 +8,12 @@ module.exports = app => {
   app.use(passport.initialize())
   app.use(passport.session())
 
-  passport.use(new LocalStrategy(
-    {
-      usernameField: 'email',
-      passwordField: 'password',
-      passReqToCallback: true
-    },
+  passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passReqToCallback: true
+  },
     (req, username, password, done) => {
-      User.findOne({ where: { $or: [{ email: username }, { account: username }] }, raw: true })
+      User.findOne({ where: { email: username }, raw: true })
         .then(user => {
           if (!user) {
             return done(null, false, req.flash('error_messages', ' That email is not registered !'))

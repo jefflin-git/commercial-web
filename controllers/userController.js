@@ -54,7 +54,7 @@ const userController = {
     }
   },
   successPage: (req, res) => {
-    res.render('success')
+    res.render('test')
   }
 }
 
