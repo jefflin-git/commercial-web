@@ -5,6 +5,7 @@ const auth = require('../config/auth')
 
 const userController = require('../controllers/userController')
 const adminController = require('../controllers/adminController')
+const cartController = require('../controllers/cartController')
 
 //註冊
 router.get('/signup', userController.signUpPage)
@@ -24,11 +25,10 @@ router.post('/admin/signin', passport.authenticate('local', {
 }), adminController.AdminSignIn)
 router.get('/signout', userController.logout)
 
-//
+
 router.get('/', userController.successPage)
-// router.get('/', (req, res) => {
-//   res.render('test')
-// })
+
+router.get('/cart', cartController.getCart)
 
 
 module.exports = router
