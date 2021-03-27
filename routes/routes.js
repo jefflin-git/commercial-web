@@ -6,6 +6,7 @@ const auth = require('../config/auth')
 const userController = require('../controllers/userController')
 const adminController = require('../controllers/adminController')
 const cartController = require('../controllers/cartController')
+const productController = require('../controllers/productController.js')
 
 //註冊
 router.get('/signup', userController.signUpPage)
@@ -29,6 +30,7 @@ router.get('/signout', userController.logout)
 router.get('/', userController.successPage)
 
 router.get('/cart', cartController.getCart)
+router.get('/products', productController.getProducts)
 
 
 module.exports = router
