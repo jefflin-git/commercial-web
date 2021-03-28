@@ -11,7 +11,7 @@ module.exports = {
       CartId: {
         type: Sequelize.INTEGER
       },
-      productId: {
+      ProductId: {
         type: Sequelize.INTEGER
       },
       quantity: {

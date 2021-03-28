@@ -31,6 +31,6 @@ router.get('/', userController.successPage)
 
 router.get('/cart', cartController.getCart)
 router.get('/products', productController.getProducts)
-
+router.post('/cart', cartController.postCart)
 
 module.exports = router

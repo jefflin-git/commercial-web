@@ -26,8 +26,11 @@ app.use(express.static('public'))
 
 app.use(methodOverride('_method'))
 
+
 app.use(session({
   secret: process.env.SECRET,
+  name: 'go',
+  cookie: { maxAge: 80000 },
   resave: false,
   saveUninitialized: false
 }))
