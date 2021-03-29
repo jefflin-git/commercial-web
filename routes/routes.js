@@ -39,5 +39,6 @@ router.delete('/cartItem/:id', cartController.deleteCartItem)
 
 router.get('/orders', orderController.getOrders)
 router.post('/order', orderController.postOrder)
+router.post('/order/:id/cancel', orderController.cancelOrder)
 
 module.exports = router

@@ -9,7 +9,7 @@ let orderController = {
         nest: true,
         include: [{ model: Product, as: 'items' }]
       })
-      res.render('orders', { orders })
+      return res.render('orders', { orders })
     } catch (error) {
       console.log(error)
       res.render('error', { message: 'error !' })
@@ -36,7 +36,21 @@ let orderController = {
         })
       })
       await Promise.all([...createOrderItem])
-      res.redirect('/orders')
+      return res.redirect('/orders')
+    } catch (error) {
+      console.log(error)
+      res.render('error', { message: 'error !' })
+    }
+  },
+  cancelOrder: async (req, res) => {
+    try {
+      const order = await Order.findByPk(req.params.id)
+      await order.update({
+        ...req.body,
+        shipping_status: '-1',
+        payment_status: '-1'
+      })
+      return res.redirect('back')
     } catch (error) {
       console.log(error)
       res.render('error', { message: 'error !' })
