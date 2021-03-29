@@ -18,15 +18,17 @@ let orderController = {
   postOrder: async (req, res) => {
     try {
       const { cartId, name, address, phone, amount, shipping_status, payment_status } = req.body
-      const cart = await Cart.findByPk(cartId, { include: [{ model: Product, as: 'items' }] })
-      const order = await Order.create({
-        name,
-        address,
-        phone,
-        shipping_status,
-        payment_status,
-        amount
-      })
+      const [cart, order] = await Promise.all([
+        Cart.findByPk(cartId, { include: [{ model: Product, as: 'items' }] }),
+        Order.create({
+          name,
+          address,
+          phone,
+          shipping_status,
+          payment_status,
+          amount
+        })
+      ])
       const createOrderItem = cart.items.map(product => {
         OrderItem.create({
           OrderId: order.id,
