@@ -22,20 +22,21 @@ const cartController = {
   postCart: async (req, res) => {
     try {
       const cart = await Cart.findOrCreate({ where: { id: req.session.cartId || 0 } })
+      const { id: CartId } = cart[0].dataValues
       let cartItem = await CartItem.findOrCreate({
         where: {
-          CartId: cart[0].dataValues.id,
+          CartId,
           ProductId: req.body.productId
         },
         default: {
-          CartId: cart[0].dataValues.id,
+          CartId,
           ProductId: req.body.productId,
         }
       })
       await cartItem[0].update({
         quantity: (cartItem[0].dataValues.quantity || 0) + 1
       })
-      req.session.cartId = cart[0].dataValues.id
+      req.session.cartId = CartId
       req.session.save()
       res.redirect('back')
     } catch (error) {
