@@ -1,12 +1,15 @@
 const db = require('../models')
-const { Cart, CartItem } = db
+const { Cart, CartItem, Product } = db
 
 const cartController = {
   getCart: async (req, res) => {
     try {
-      let cart = await Cart.findByPk(req.session.cartId, { include: 'items' })
-      cart = cart || { items: [] }
-      let totalPrice = cart.items.length > 0 ? cart.items.map(item => item.price * item.CartItem.quantity).reduce((a, b) => a + b) : 0
+      let totalPrice = 0
+      const cart = await Cart.findByPk(req.session.cartId, {
+        include: [{ model: Product, as: 'items' }],
+      })
+      if (!cart) return res.render('cart', { totalPrice })
+      totalPrice = cart.items.length > 0 ? cart.items.map((d) => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
       return res.render('cart', {
         cart: cart.toJSON(),
         totalPrice
@@ -39,6 +42,25 @@ const cartController = {
       console.log(error)
       res.render('error', { message: 'error !' })
     }
+  },
+  addCartItem: async (req, res) => {
+    const cartItem = await CartItem.findByPk(req.params.id)
+    await cartItem.update({
+      quantity: cartItem.quantity + 1
+    })
+    res.redirect('back')
+  },
+  subCartItem: async (req, res) => {
+    const cartItem = await CartItem.findByPk(req.params.id)
+    await cartItem.update({
+      quantity: cartItem.quantity > 1 ? cartItem.quantity - 1 : 1,
+    })
+    res.redirect('back')
+  },
+  deleteCartItem: async (req, res) => {
+    const cartItem = await CartItem.findByPk(req.params.id)
+    await cartItem.destroy()
+    res.redirect('back')
   }
 }
 

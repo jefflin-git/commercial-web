@@ -32,5 +32,8 @@ router.get('/', userController.successPage)
 router.get('/cart', cartController.getCart)
 router.get('/products', productController.getProducts)
 router.post('/cart', cartController.postCart)
+router.post('/cartItem/:id/add', cartController.addCartItem)
+router.post('/cartItem/:id/sub', cartController.subCartItem)
+router.delete('/cartItem/:id', cartController.deleteCartItem)
 
 module.exports = router
