@@ -6,7 +6,8 @@ const auth = require('../config/auth')
 const userController = require('../controllers/userController')
 const adminController = require('../controllers/adminController')
 const cartController = require('../controllers/cartController')
-const productController = require('../controllers/productController.js')
+const productController = require('../controllers/productController')
+const orderController = require('../controllers/orderController')
 
 //註冊
 router.get('/signup', userController.signUpPage)
@@ -35,5 +36,7 @@ router.post('/cart', cartController.postCart)
 router.post('/cartItem/:id/add', cartController.addCartItem)
 router.post('/cartItem/:id/sub', cartController.subCartItem)
 router.delete('/cartItem/:id', cartController.deleteCartItem)
+
+router.get('/orders', orderController.getOrders)
 
 module.exports = router
