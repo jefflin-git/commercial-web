@@ -41,4 +41,6 @@ router.get('/orders', orderController.getOrders)
 router.post('/order', orderController.postOrder)
 router.post('/order/:id/cancel', orderController.cancelOrder)
 
+router.get('/order/:id/payment', orderController.getPayment)
+
 module.exports = router

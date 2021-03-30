@@ -94,6 +94,15 @@ let orderController = {
       console.log(error)
       res.render('error', { message: 'error !' })
     }
+  },
+  getPayment: async (req, res) => {
+    try {
+      const order = await Order.findByPk(req.params.id)
+      return res.render('payment', { order: order.toJSON() })
+    } catch (error) {
+      console.log(error)
+      res.render('error', { message: 'error !' })
+    }
   }
 }
 
