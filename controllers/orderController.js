@@ -19,11 +19,10 @@ let orderController = {
   getOrders: async (req, res) => {
     try {
       const orders = await Order.findAll({
-        raw: true,
-        nest: true,
         include: [{ model: Product, as: 'items' }]
       })
-      return res.render('orders', { orders })
+      const ordersJSON = orders.map((order) => order.toJSON())
+      return res.render('orders', { orders: ordersJSON })
     } catch (error) {
       console.log(error)
       res.render('error', { message: 'error !' })
