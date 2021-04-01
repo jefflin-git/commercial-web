@@ -1,6 +1,11 @@
+if (process.env.NODE_ENV !== 'produciton') {
+  require('dotenv').config()
+}
 const nodemailer = require('nodemailer')
 const db = require('../models')
 const { Order, Product, OrderItem, Cart } = db
+const getTradeInfo = require('../functions/tradeInfo')
+const { create_mpg_aes_decrypt } = require('../functions/encryptDecrypt')
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -98,11 +103,37 @@ let orderController = {
   getPayment: async (req, res) => {
     try {
       const order = await Order.findByPk(req.params.id)
-      return res.render('payment', { order: order.toJSON() })
+      const tradeInfo = getTradeInfo(order.amount, '產品名稱', process.env.MY_EMAIL
+      )
+      const updatedOrder = await order.update({
+        ...req.body,
+        sn: tradeInfo.MerchantOrderNo
+      })
+      return res.render('payment', { order: updatedOrder.toJSON(), tradeInfo })
     } catch (error) {
       console.log(error)
       res.render('error', { message: 'error !' })
     }
+  },
+  spgatewayCallback: async (req, res) => {
+    try {
+      const data = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo))
+
+      const orders = await Order.findAll({
+        where: { sn: data.Result.MerchantOrderNo }
+      })
+
+      await orders[0].update({
+        ...req.body,
+        payment_status: 1
+      })
+
+      return res.redirect('/orders')
+    } catch (error) {
+      console.log(error)
+      res.render('error', { message: 'error !' })
+    }
+    return res.redirect('/orders')
   }
 }
 

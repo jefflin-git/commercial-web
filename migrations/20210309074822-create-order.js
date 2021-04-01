@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       sn: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING(1024)
       },
       shipping_status: {
         type: Sequelize.STRING
