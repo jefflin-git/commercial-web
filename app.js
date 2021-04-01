@@ -16,7 +16,7 @@ const flash = require('connect-flash')
 const passport = require('./config/passport')
 const helpers = require('./_helpers')
 
-app.engine('handlebars', handlebars({ defaultLayout: 'main', helpers: require('./config/handlebars-helpers') }))
+app.engine('handlebars', handlebars({ defaultLayout: 'main', helpers: require('./functions/handlebars-helpers') }))
 app.set('view engine', 'handlebars')
 
 app.use(bodyParser.urlencoded({ extended: true }))

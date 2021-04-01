@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const passport = require('passport')
-const auth = require('../config/auth')
+const auth = require('../functions/auth')
 
 const userController = require('../controllers/userController')
 const adminController = require('../controllers/adminController')
