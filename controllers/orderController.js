@@ -6,6 +6,7 @@ const db = require('../models')
 const { Order, Product, OrderItem, Cart } = db
 const getTradeInfo = require('../functions/tradeInfo')
 const { create_mpg_aes_decrypt } = require('../functions/encryptDecrypt')
+const helpers = require('../_helpers')
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -19,7 +20,8 @@ let orderController = {
   getOrders: async (req, res) => {
     try {
       const orders = await Order.findAll({
-        include: [{ model: Product, as: 'items' }]
+        include: [{ model: Product, as: 'items' }],
+        where: { UserId: helpers.getUser(req).id }
       })
       const ordersJSON = orders.map((order) => order.toJSON())
       return res.render('orders', { orders: ordersJSON })
@@ -45,7 +47,8 @@ let orderController = {
           phone,
           shipping_status,
           payment_status,
-          amount
+          amount,
+          UserId: helpers.getUser(req).id
         })
       ])
 

@@ -28,20 +28,20 @@ router.post('/admin/signin', passport.authenticate('local', {
 router.get('/signout', userController.logout)
 
 
-router.get('/', userController.successPage)
+router.get('/', auth.authenticatedUser, cartController.getCart)
 
-router.get('/cart', cartController.getCart)
+router.get('/cart', auth.authenticatedUser, cartController.getCart)
 router.get('/products', productController.getProducts)
 router.post('/cart', cartController.postCart)
 router.post('/cartItem/:id/add', cartController.addCartItem)
 router.post('/cartItem/:id/sub', cartController.subCartItem)
 router.delete('/cartItem/:id', cartController.deleteCartItem)
 
-router.get('/orders', orderController.getOrders)
-router.post('/order', orderController.postOrder)
-router.post('/order/:id/cancel', orderController.cancelOrder)
+router.get('/orders', auth.authenticatedUser, orderController.getOrders)
+router.post('/order', auth.authenticatedUser, orderController.postOrder)
+router.post('/order/:id/cancel', auth.authenticatedUser, orderController.cancelOrder)
 
-router.get('/order/:id/payment', orderController.getPayment)
+router.get('/order/:id/payment', auth.authenticatedUser, orderController.getPayment)
 router.post('/spgateway/callback', orderController.spgatewayCallback)
 
 module.exports = router

@@ -38,10 +38,25 @@
           <h5 class="my-0 mr-md-auto font-weight-normal">
             <a href="/products">Go Shopping</a>
           </h5>
+          {{#if isAuthenticated}}
           <nav class="my-2 my-md-0 mr-md-3">
             <a class="p-2 text-dark" href="/cart">Cart</a>
             <a class="p-2 text-dark" href="/orders">Orders</a>
+            <a class="p-2 text-dark" href="#">
+              {{#if user.name}}
+              Hello, {{user.name}}
+              {{else}}
+              {{user.email}}
+              {{/if}}
+            </a>
+            <a class="p-2 text-dark" href="/signout">會員登出</a>
           </nav>
+          {{else}}
+          <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" href="/signup">加入會員</a>
+            <a class="p-2 text-dark" href="/signin">會員登入</a>
+          </nav>
+          {{/if}}
         </div>
         {{{body}}}
       </div>
