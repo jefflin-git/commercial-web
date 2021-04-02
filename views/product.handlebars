@@ -1,0 +1,17 @@
+<div class="media">
+  <img src="{{product.image}}" class="align-self-center mr-3" alt="...">
+  <div class="media-body">
+    <h5 class="mt-0">{{product.name}}</h5>
+    <p>{{product.description}}</p>
+    <p class="card-text">Price: {{ product.price}}</p>
+    <div class="btn-group">
+      <form action="/cart" method="POST">
+        <input type="hidden" name="productId" value="{{product.id}}">
+        <button type="submit" class="btn btn-sm btn-outline-secondary mr-2">Add to Cart</button>
+      </form>
+      <a href="/products">
+        <button class="btn btn-sm btn-secondary">Go Back</button>
+      </a>
+    </div>
+  </div>
+</div>

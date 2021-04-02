@@ -33,6 +33,15 @@ let productController = {
       console.log(error)
       res.render('error', { message: 'error !' })
     }
+  },
+  getProduct: async (req, res) => {
+    try {
+      const product = await Product.findByPk(req.params.id)
+      return res.render('product', { product: product.toJSON() })
+    } catch (err) {
+      console.log(err)
+      res.render('error', { message: 'error !' })
+    }
   }
 }
 
