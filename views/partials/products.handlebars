@@ -5,7 +5,11 @@
       <img class="bd-placeholder-img card-img-top" width="100%" height="225" src={{this.image}}></img>
       <div class="card-body">
         <p class="card-text">
+          {{#ifCond ../user.role 'admin'}}
+        <h4><a href="/admin/products/{{this.id}}">{{this.id}} {{this.name}}</a></h4>
+        {{else}}
         <h4><a href="/products/{{this.id}}">{{this.id}} {{this.name}}</a></h4>
+        {{/ifCond}}
         <span>{{this.description}}</span>
         </p>
         <div class="d-flex justify-content-between align-items-center">
@@ -13,15 +17,14 @@
           {{#ifCond ../user.role 'admin'}}
           <div>
             <div class="btn-group">
-              <form action="/cart" method="POST">
-                <input type="hidden" name="productId" value="{{this.id}}">
-                <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
-              </form>
+              <a href="/admin/products/{{this.id}}">
+                <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+              </a>
             </div>
             <div class="btn-group">
               <form action="/cart" method="POST">
                 <input type="hidden" name="productId" value="{{this.id}}">
-                <button type="submit" class="btn btn-sm btn-outline-secondary">Delete</button>
+                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
               </form>
             </div>
           </div>

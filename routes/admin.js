@@ -12,5 +12,6 @@ router.post('/signin', passport.authenticate('local', {
   failureRedirect: '/signin', failureFlash: true
 }), adminController.AdminSignIn)
 router.get('/products', auth.authenticatedAdmin, productController.getProducts)
+router.get('/products/:id', auth.authenticatedAdmin, productController.getProduct)
 
 module.exports = router

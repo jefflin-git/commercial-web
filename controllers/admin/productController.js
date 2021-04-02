@@ -25,6 +25,18 @@ let productController = {
       console.log(error)
       res.render('error', { message: 'error !' })
     }
+  },
+  getProduct: async (req, res) => {
+    try {
+      const [product] = await Promise.all([
+        Product.findByPk(req.params.id)
+      ])
+
+      return res.render('admin/product', { product: product.toJSON() })
+    } catch (err) {
+      console.log(err)
+      res.render('error', { message: 'error !' })
+    }
   }
 }
 
