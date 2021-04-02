@@ -12,10 +12,10 @@ let productController = {
       }
 
       let totalPrice = 0
-      let [products, cart] = await Promise.all([
+      const [products, cart] = await Promise.all([
         Product.findAndCountAll({ raw: true, nest: true, offset: pageOffset, limit: pageLimit }),
         Cart.findByPk(req.session.cartId, {
-          include: [{ model: Product, as: 'items' }],
+          include: [{ model: Product, as: 'items' }]
         })
       ])
 
@@ -36,8 +36,19 @@ let productController = {
   },
   getProduct: async (req, res) => {
     try {
-      const product = await Product.findByPk(req.params.id)
-      return res.render('product', { product: product.toJSON() })
+      let totalPrice = 0
+      const [product, cart] = await Promise.all([
+        Product.findByPk(req.params.id),
+        Cart.findByPk(req.session.cartId, {
+          include: [{ model: Product, as: 'items' }]
+        })
+      ])
+
+      if (!cart) return res.render('product', { product: product.toJSON(), totalPrice })
+
+      totalPrice = cart.items.length > 0 ? cart.items.map((d) => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+
+      return res.render('product', { product: product.toJSON(), cart: cart.toJSON(), totalPrice })
     } catch (err) {
       console.log(err)
       res.render('error', { message: 'error !' })
