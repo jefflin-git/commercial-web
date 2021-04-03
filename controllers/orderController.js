@@ -21,7 +21,8 @@ let orderController = {
     try {
       const orders = await Order.findAll({
         include: [{ model: Product, as: 'items' }],
-        where: { UserId: helpers.getUser(req).id }
+        where: { UserId: helpers.getUser(req).id },
+        order: [['id', 'DESC']]
       })
       const ordersJSON = orders.map((order) => order.toJSON())
       return res.render('orders', { orders: ordersJSON })

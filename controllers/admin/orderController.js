@@ -5,7 +5,8 @@ let orderController = {
   getOrders: async (req, res) => {
     try {
       const orders = await Order.findAll({
-        include: [{ model: Product, as: 'items' }]
+        include: [{ model: Product, as: 'items' }],
+        order: [['id', 'DESC']]
       })
       const ordersJSON = orders.map((order) => order.toJSON())
       return res.render('admin/orders', { orders: ordersJSON })
