@@ -7,7 +7,7 @@ module.exports = {
         return next()
       }
       req.flash('error_messages', '管理員請使用後台')
-      return res.redirect('/admin/tweets')
+      return res.redirect('/admin/signin')
     }
     req.flash('error_messages', '請登入！')
     res.redirect('/signin')

@@ -45,7 +45,7 @@
         {{#ifCond this.shipping_status '-1'}}
         <button type="button" class="order-canceled btn btn-gray  ">已取消</button>
         {{else}}
-        <form action="/order/{{this.id}}/cancel" method="POST">
+        <form action="/admin/order/{{this.id}}/cancel" method="POST">
           <button type="submit" class="btn btn-danger ml-2">取消訂單</button>
         </form>
         {{#ifCond this.payment_status '1'}}

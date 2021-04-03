@@ -23,5 +23,6 @@ router.put('/products/:id', auth.authenticatedAdmin, upload.single('image'), pro
 router.delete('/products/:id', auth.authenticatedAdmin, productController.deleteProduct)
 
 router.get('/orders', auth.authenticatedAdmin, orderController.getOrders)
+router.post('/order/:id/cancel', auth.authenticatedAdmin, orderController.cancelOrder)
 
 module.exports = router
