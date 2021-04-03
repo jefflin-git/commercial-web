@@ -18,6 +18,7 @@ router.get('/products', auth.authenticatedAdmin, productController.getProducts)
 router.get('/products/new', auth.authenticatedAdmin, productController.addProduct)
 router.post('/products/new', auth.authenticatedAdmin, upload.single('image'), productController.postProduct)
 router.get('/products/:id', auth.authenticatedAdmin, productController.getProduct)
+router.put('/products/:id', auth.authenticatedAdmin, upload.single('image'), productController.putProduct)
 router.delete('/products/:id', auth.authenticatedAdmin, productController.deleteProduct)
 
 module.exports = router

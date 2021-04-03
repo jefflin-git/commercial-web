@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center row">
   <div class="col-10">
-    <form action="" method="POST" enctype="multipart/form-data">
+    <form action="/admin/products/{{product.id}}?_method=PUT" method="POST" enctype="multipart/form-data">
       <div class="form-group row">
         <label for="name" class="col-sm-2 col-form-label">Product Name</label>
         <div class="col-sm-10">
@@ -24,7 +24,7 @@
       </div>
       <div class="form-group">
         <label for="image">Image</label>
-        <input type="file" class="form-control-file" id="image" name="image" required>
+        <input type="file" class="form-control-file" id="image" name="image">
       </div>
       <button type="submit" class="btn btn-success">修改資料</button>
     </form>
