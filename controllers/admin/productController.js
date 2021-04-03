@@ -1,3 +1,8 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+const imgur = require('imgur')
+const { IMGUR_CLIENT_ID } = process.env.IMGUR_CLIENT_ID
 const db = require('../../models')
 const { Product, Cart } = db
 
@@ -52,6 +57,30 @@ let productController = {
   addProduct: async (req, res) => {
     try {
       return res.render('admin/addProduct')
+    } catch (err) {
+      console.log(err)
+      res.render('error', { message: 'error !' })
+    }
+  },
+  postProduct: async (req, res) => {
+    try {
+      const { name, description, price } = req.body
+      if (!name || !description || !price || !req.file) {
+        req.flash('error_messages', '請完成所有欄位!')
+        return res.redirect('/admin/products/new', { name, description, price })
+      }
+
+      imgur.setClientId(IMGUR_CLIENT_ID)
+      const img = await imgur.uploadFile(req.file.path)
+      await Product.create({
+        name,
+        description,
+        price,
+        image: img.link
+      })
+
+      req.flash('success_messages', '成功新增商品')
+      return res.redirect('/admin/products')
     } catch (err) {
       console.log(err)
       res.render('error', { message: 'error !' })

@@ -13,3 +13,5 @@ node_modules
 *.log
 *.gz
 .env
+temp/
+upload/

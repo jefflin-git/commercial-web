@@ -24,8 +24,9 @@ app.use(bodyParser.json())
 
 app.use(express.static('public'))
 
-app.use(methodOverride('_method'))
+app.use('/upload', express.static(__dirname + '/upload'))
 
+app.use(methodOverride('_method'))
 
 app.use(session({
   secret: process.env.SECRET,
