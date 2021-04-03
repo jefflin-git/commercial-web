@@ -56,6 +56,8 @@ let productController = {
         })
       ])
 
+      await product.increment('viewCounts', { by: 1 })
+
       if (!cart) return res.render('product', { product: product.toJSON(), totalPrice })
 
       totalPrice = cart.items.length > 0 ? cart.items.map((d) => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
