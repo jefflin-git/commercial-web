@@ -48,6 +48,14 @@ let productController = {
       console.log(err)
       res.render('error', { message: 'error !' })
     }
+  },
+  addProduct: async (req, res) => {
+    try {
+      return res.render('admin/addProduct')
+    } catch (err) {
+      console.log(err)
+      res.render('error', { message: 'error !' })
+    }
   }
 }
 

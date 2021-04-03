@@ -11,7 +11,9 @@ router.get('/signin', adminController.AdminSignInPage)
 router.post('/signin', passport.authenticate('local', {
   failureRedirect: '/signin', failureFlash: true
 }), adminController.AdminSignIn)
+
 router.get('/products', auth.authenticatedAdmin, productController.getProducts)
+router.get('/products/new', auth.authenticatedAdmin, productController.addProduct)
 router.get('/products/:id', auth.authenticatedAdmin, productController.getProduct)
 router.delete('/products/:id', auth.authenticatedAdmin, productController.deleteProduct)
 
