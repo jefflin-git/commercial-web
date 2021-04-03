@@ -38,10 +38,20 @@
           <h5 class="my-0 mr-md-auto font-weight-normal">
             <a href="/admin/products">Go Shopping</a>
           </h5>
+          <form class="form-inline" action="/admin/products" method="GET">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search Product" aria-label="Search"
+              name="keyword" value="{{keyword}}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
           {{else}}
           <h5 class="my-0 mr-md-auto font-weight-normal">
             <a href="/products">Go Shopping</a>
           </h5>
+          <form class="form-inline" action="/products" method="GET">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search Product" aria-label="Search"
+              name="keyword" value="{{keyword}}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
           {{/ifCond}}
           {{#if isAuthenticated}}
           {{#ifCond user.role 'admin'}}

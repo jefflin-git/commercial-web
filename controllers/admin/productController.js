@@ -5,6 +5,7 @@ const imgur = require('imgur')
 const { IMGUR_CLIENT_ID } = process.env.IMGUR_CLIENT_ID
 const db = require('../../models')
 const { Product, Cart } = db
+const { Op } = require('sequelize')
 
 let productController = {
   getProducts: async (req, res) => {
@@ -16,16 +17,27 @@ let productController = {
         pageOffset = (page - 1) * pageLimit
       }
 
+      let whereQuery = {}
+      const keyword = req.query.keyword ? req.query.keyword : ''
+      if (keyword) {
+        whereQuery.name = { [Op.like]: `%${keyword}%` }
+      }
+
       const [products] = await Promise.all([
-        Product.findAndCountAll({ raw: true, nest: true, offset: pageOffset, limit: pageLimit })
+        Product.findAndCountAll({ raw: true, nest: true, offset: pageOffset, limit: pageLimit, where: whereQuery })
       ])
+
+      if (!products.rows.length) {
+        req.flash('error_messages', `找不到和${keyword}有關的商品 !`)
+        return res.redirect('back')
+      }
 
       const pages = Math.ceil(products.count / pageLimit)
       const totalPage = Array.from({ length: pages }).map((item, index) => item = index + 1)
       const prev = page - 1 < 1 ? 1 : page - 1
       const next = page + 1 > pages ? pages : page + 1
 
-      return res.render('admin/products', { products, totalPage, prev, next })
+      return res.render('admin/products', { products, totalPage, prev, next, keyword })
     } catch (error) {
       console.log(error)
       res.render('error', { message: 'error !' })
