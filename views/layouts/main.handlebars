@@ -38,9 +38,11 @@
             <a href="/products">Go Shopping</a>
           </h5>
           {{#if isAuthenticated}}
+          {{#ifCond user.role 'admin'}}
           <nav class="my-2 my-md-0 mr-md-3">
-            <a class="p-2 text-dark" href="/cart">Cart</a>
-            <a class="p-2 text-dark" href="/orders">My Orders</a>
+            <a class="p-2 text-dark" href="/admin/orders">Manage Orders</a>
+            <a class="p-2 text-dark" href="/admin/products">Manage Products</a>
+            <a class="p-2 text-dark" href="/admin/products/new">Add Product</a>
             <a class="p-2 text-dark" href="#">
               {{#if user.name}}
               Hello, {{user.name}}
@@ -48,14 +50,28 @@
               {{user.email}}
               {{/if}}
             </a>
-            <a class="p-2 text-dark" href="/signout">會員登出</a>
-          </nav>
-          {{else}}
-          <nav class="my-2 my-md-0 mr-md-3">
-            <a class="p-2 text-dark" href="/signup">加入會員</a>
-            <a class="p-2 text-dark" href="/signin">會員登入</a>
-          </nav>
-          {{/if}}
+            <a class="p-2 text-dark" href="/signout">管理員登出</a>
+            {{else}}
+            <nav class="my-2 my-md-0 mr-md-3">
+              <a class="p-2 text-dark" href="/cart">Cart</a>
+              <a class="p-2 text-dark" href="/orders">My Orders</a>
+              <a class="p-2 text-dark" href="#">
+                {{#if user.name}}
+                Hello, {{user.name}}
+                {{else}}
+                {{user.email}}
+                {{/if}}
+              </a>
+              <a class="p-2 text-dark" href="/signout">會員登出</a>
+            </nav>
+            {{/ifCond}}
+            {{else}}
+            <nav class="my-2 my-md-0 mr-md-3">
+              <a class="p-2 text-dark" href="/signup">加入會員</a>
+              <a class="p-2 text-dark" href="/signin">會員登入</a>
+              <a class="p-2 text-dark" href="/admin/signin">後台登入</a>
+            </nav>
+            {{/if}}
         </div>
         {{{body}}}
       </div>
