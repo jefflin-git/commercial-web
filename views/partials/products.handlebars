@@ -22,10 +22,8 @@
               </a>
             </div>
             <div class="btn-group">
-              <form action="/cart" method="POST">
-                <input type="hidden" name="productId" value="{{this.id}}">
-                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-              </form>
+              <button type="submit" class="delete-product btn btn-sm btn-danger" data-toggle="modal"
+                data-target="#delete-modal-{{this.id}}">Delete</button>
             </div>
           </div>
           {{else}}
@@ -36,6 +34,23 @@
             </form>
           </div>
           {{/ifCond}}
+        </div>
+      </div>
+    </div>
+  </div>
+  {{!-- modal --}}
+  <div class="modal fade" id="delete-modal-{{this.id}}" data-backdrop="static" tabindex="-1" data-keyboard="false"
+    aria-labelledby="delete-modal-{{this.id}}-Label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          要刪除 <strong>{{this.name}}</strong> 嗎？
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
+          <form action="/admin/products/{{this.id}}?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-danger">確認刪除</button>
+          </form>
         </div>
       </div>
     </div>

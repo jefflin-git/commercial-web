@@ -37,6 +37,17 @@ let productController = {
       console.log(err)
       res.render('error', { message: 'error !' })
     }
+  },
+  deleteProduct: async (req, res) => {
+    try {
+      const product = await Product.findByPk(req.params.id)
+      await product.destroy()
+      req.flash('success_messages', '刪除成功 !')
+      res.redirect('/admin/products')
+    } catch (err) {
+      console.log(err)
+      res.render('error', { message: 'error !' })
+    }
   }
 }
 

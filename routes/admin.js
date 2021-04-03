@@ -13,5 +13,6 @@ router.post('/signin', passport.authenticate('local', {
 }), adminController.AdminSignIn)
 router.get('/products', auth.authenticatedAdmin, productController.getProducts)
 router.get('/products/:id', auth.authenticatedAdmin, productController.getProduct)
+router.delete('/products/:id', auth.authenticatedAdmin, productController.deleteProduct)
 
 module.exports = router

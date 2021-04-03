@@ -23,13 +23,11 @@
           <input type="email" class="form-control" id="inputEmail3" value="{{ product.price}}">
         </div>
       </div>
-      <button type="submit" class="btn btn-sm btn-success">修改資料</button>
+      <button type="submit" class="btn btn-success">修改資料</button>
     </form>
     <div class="btn-group">
-      <form action="/cart" method="POST">
-        <input type="hidden" name="productId" value="{{this.id}}">
-        <button type="submit" class="btn btn-sm btn-danger mt-3">刪除商品</button>
-      </form>
+      <button type="submit" class="delete-product btn btn btn-danger mt-3" data-toggle="modal"
+        data-target="#delete-modal-{{product.id}}">刪除商品</button>
     </div>
   </div>
 
@@ -44,10 +42,28 @@
         <div>
           <div class="btn-group">
             <a href="/admin/products">
-              <button type="submit" class="btn btn-sm btn-success">確定資料正確後返回主頁</button>
+              <button type="submit" class="btn btn-success">確定資料正確後返回主頁</button>
             </a>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- modal --}}
+<div class="modal fade" id="delete-modal-{{product.id}}" data-backdrop="static" tabindex="-1" data-keyboard="false"
+  aria-labelledby="delete-modal-{{product.id}}-Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        要刪除 <strong>{{product.name}}</strong> 嗎？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
+        <form action="/admin/products/{{product.id}}?_method=DELETE" method="POST">
+          <button type="submit" class="btn btn-danger">確認刪除</button>
+        </form>
       </div>
     </div>
   </div>
