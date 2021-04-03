@@ -7,6 +7,7 @@ const upload = multer({ dest: 'temp/' })
 
 const adminController = require('../controllers/admin/adminController')
 const productController = require('../controllers/admin/productController')
+const orderController = require('../controllers/admin/orderController')
 
 // Admin
 router.get('/signin', adminController.AdminSignInPage)
@@ -20,5 +21,7 @@ router.post('/products/new', auth.authenticatedAdmin, upload.single('image'), pr
 router.get('/products/:id', auth.authenticatedAdmin, productController.getProduct)
 router.put('/products/:id', auth.authenticatedAdmin, upload.single('image'), productController.putProduct)
 router.delete('/products/:id', auth.authenticatedAdmin, productController.deleteProduct)
+
+router.get('/orders', auth.authenticatedAdmin, orderController.getOrders)
 
 module.exports = router
