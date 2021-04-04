@@ -9,6 +9,7 @@ module.exports = {
         description: faker.commerce.product() + '/' + faker.commerce.productName(),
         price: faker.commerce.price(),
         image: faker.image.imageUrl(),
+        viewCounts: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
       })
