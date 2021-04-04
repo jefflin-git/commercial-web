@@ -24,7 +24,7 @@ let productController = {
       }
 
       const [products] = await Promise.all([
-        Product.findAndCountAll({ raw: true, nest: true, offset: pageOffset, limit: pageLimit, where: whereQuery })
+        Product.findAndCountAll({ raw: true, nest: true, offset: pageOffset, limit: pageLimit, where: whereQuery, order: [['id', 'ASC']] })
       ])
 
       if (!products.rows.length) {

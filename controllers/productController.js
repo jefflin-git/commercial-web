@@ -20,7 +20,7 @@ let productController = {
 
       let totalPrice = 0
       const [products, cart] = await Promise.all([
-        Product.findAndCountAll({ raw: true, nest: true, offset: pageOffset, limit: pageLimit, where: whereQuery }),
+        Product.findAndCountAll({ raw: true, nest: true, offset: pageOffset, limit: pageLimit, where: whereQuery, order: [['id', 'ASC']] }),
         Cart.findByPk(req.session.cartId, {
           include: [{ model: Product, as: 'items' }]
         })
