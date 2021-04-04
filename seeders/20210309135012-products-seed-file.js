@@ -8,7 +8,8 @@ module.exports = {
         name: faker.commerce.productName(),
         description: faker.commerce.product() + '/' + faker.commerce.productName(),
         price: faker.commerce.price(),
-        image: faker.image.imageUrl(),
+        image: `https://loremflickr.com/320/240/furniture/?lock=${Math.random() * 100
+          }`,
         viewCounts: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
