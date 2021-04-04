@@ -11,6 +11,7 @@ const adminController = {
       req.flash('success_messages', 'Sign in successfully！')
       res.redirect('/admin/products')
     } else {
+      req.logout()
       req.flash('error_messages', '使用者請從前台登入！')
       res.redirect('/admin/signin')
     }

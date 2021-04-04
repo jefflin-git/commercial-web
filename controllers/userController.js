@@ -11,6 +11,7 @@ const userController = {
       req.flash('success_messages', '登入成功！')
       res.redirect('/products')
     } else {
+      req.logout()
       req.flash('error_messages', '管理者請從後台登入！')
       res.redirect('/signin')
     }
