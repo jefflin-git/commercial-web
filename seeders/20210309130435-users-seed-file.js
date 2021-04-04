@@ -1,5 +1,6 @@
 'use strict';
 const bcrypt = require('bcryptjs')
+const faker = require('faker')
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('Users',
@@ -8,6 +9,7 @@ module.exports = {
         email: i === 0 ? 'root@example.com' : `user${i}@example.com`,
         password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
         role: i === 0 ? 'admin' : 'user',
+        name: faker.name.findName(),
         createdAt: new Date(),
         updatedAt: new Date()
       })
