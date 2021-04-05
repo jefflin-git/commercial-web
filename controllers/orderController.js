@@ -40,23 +40,22 @@ let orderController = {
         res.redirect('back')
       }
 
-      const [cart, order] = await Promise.all([
-        Cart.findByPk(cartId, { include: [{ model: Product, as: 'items' }] }),
-        Order.create({
-          name,
-          address,
-          phone,
-          shipping_status,
-          payment_status,
-          amount,
-          UserId: helpers.getUser(req).id
-        })
-      ])
+      const cart = await Cart.findByPk(cartId, { include: [{ model: Product, as: 'items' }] })
 
       if (!cart) {
         req.flash('error_messages', '購物車內沒有商品，請加入商品!')
-        res.redirect('back')
+        return res.redirect('back')
       }
+
+      const order = await Order.create({
+        name,
+        address,
+        phone,
+        shipping_status,
+        payment_status,
+        amount,
+        UserId: helpers.getUser(req).id
+      })
 
       const createOrderItem = cart.items.map(product => {
         OrderItem.create({
