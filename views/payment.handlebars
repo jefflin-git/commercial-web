@@ -2,13 +2,13 @@
 <h4>總價 {{order.amount}} </h4>
 
 <form name='Spgateway' action='{{tradeInfo.PayGateWay}}' method="POST">
-  MerchantID:
-  <input type="text" name="MerchantID" value="{{tradeInfo.MerchantID}}"><br>
-  TradeInfo:
-  <input type="text" name="TradeInfo" value="{{tradeInfo.TradeInfo}}"><br>
-  TradeSha:
-  <input type="text" name="TradeSha" value="{{tradeInfo.TradeSha}}"><br>
-  Version:
-  <input type="text" name="Version" value="{{tradeInfo.Version}}"><br>
+  {{!-- MerchantID: --}}
+  <input type="hidden" name="MerchantID" value="{{tradeInfo.MerchantID}}"><br>
+  {{!-- TradeInfo: --}}
+  <input type="hidden" name="TradeInfo" value="{{tradeInfo.TradeInfo}}"><br>
+  {{!-- TradeSha: --}}
+  <input type="hidden" name="TradeSha" value="{{tradeInfo.TradeSha}}"><br>
+  {{!-- Version: --}}
+  <input type="hidden" name="Version" value="{{tradeInfo.Version}}"><br>
   <button type="submit" class="btn btn-primary">Payment</button>
 </form>
