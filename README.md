@@ -15,9 +15,11 @@ Go Shopping has three different roles: Visitor, User, and Admin
 - able to modify product amount at shopping cart
 - able to remove products from shopping cart
 - able to register for an account and become User
+- able to use facebook login to register for an account and become User (only valid in local verson)
 ### User
 All features same as Visitor, plus
 - able to login and logout
+- able to use facebook login (only valid in local verson)
 - able to make an order
 - System will send an order confirmation email to User once order created
 - able to view all of its orders and orders' status
@@ -85,6 +87,7 @@ Admin role is created by developer, visitor/user cannot register for Admin.
     ```
 11. Start browser and enter http://localhost:3000
 12. Use below accounts to test:
+
     Admin
     ```
      email: root@example.com
