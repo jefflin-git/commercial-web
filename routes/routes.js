@@ -34,6 +34,6 @@ router.post('/order', auth.authenticatedUser, orderController.postOrder)
 router.post('/order/:id/cancel', auth.authenticatedUser, orderController.cancelOrder)
 
 router.get('/order/:id/payment', auth.authenticatedUser, orderController.getPayment)
-router.post('/spgateway/callback', orderController.spgatewayCallback)
+router.post('/orders/spgateway/callback', orderController.spgatewayCallback)
 
 module.exports = router
