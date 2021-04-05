@@ -53,6 +53,9 @@ Admin role is created by developer, visitor/user cannot register for Admin.
     HASH_IV=
     URL=
     MERCHANT_ID=
+    FACEBOOK_ID=
+    FACEBOOK_SECRET=
+    FACEBOOK_CALLBACK=
     ```
 5. Register for NewebPay testing account (if you want to test transactions)
     - Link: https://cwww.newebpay.com/
