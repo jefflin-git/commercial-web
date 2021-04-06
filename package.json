@@ -8,7 +8,8 @@
     "dev": "nodemon app.js",
     "test": "set \"NODE_ENV=test\" && mocha test/*/*.js --exit --recursive --timeout 5000",
     "reqProduct": "npx mocha test/requests/product.spec.js --exit",
-    "reqCart": "npx mocha test/requests/cart.spec.js --exit"
+    "reqCart": "npx mocha test/requests/cart.spec.js --exit",
+    "reqLogin": "npx mocha test/requests/login.spec.js --exit"
   },
   "keywords": [],
   "author": "",
