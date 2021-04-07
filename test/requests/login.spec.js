@@ -36,7 +36,7 @@ describe('# login request', () => {
         .send('email=User1@example.com&password=User1')
         .set('Accept', 'application/json')
         .expect(302)
-        .expect('LOcation', '/products')
+        .expect('Location', '/products')
         .end(function (err, res) {
           if (err) return done(err)
           return done()
@@ -49,7 +49,7 @@ describe('# login request', () => {
         .send('')
         .set('Accept', 'application/json')
         .expect(302)
-        .expect('LOcation', '/signin')
+        .expect('Location', '/signin')
         .end(function (err, res) {
           if (err) return done(err)
           return done()

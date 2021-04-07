@@ -10,6 +10,7 @@
     "reqProduct": "npx mocha test/requests/product.spec.js --exit",
     "reqCart": "npx mocha test/requests/cart.spec.js --exit",
     "reqLogin": "npx mocha test/requests/login.spec.js --exit",
+    "admLogin": "npx mocha test/admin/login.spec.js --exit",
     "nycProduct": "./node_modules/nyc/bin/nyc.js mocha test/requests/product.spec.js --exit",
     "nycCart": "./node_modules/nyc/bin/nyc.js mocha test/requests/cart.spec.js --exit",
     "nycLogin": "./node_modules/nyc/bin/nyc.js mocha test/requests/login.spec.js --exit",
