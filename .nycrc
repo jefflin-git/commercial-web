@@ -1,0 +1,15 @@
+{
+  "include": [
+    "controllers/userController.js",
+    "controllers/productController.js"
+  ],
+  "reporter": [
+    "text",
+    "html"
+  ],
+  "check-coverage": true,
+  "lines": 50,
+  "statement": 50,
+  "functions": 50,
+  "branches": 50
+}

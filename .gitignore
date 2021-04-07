@@ -15,3 +15,5 @@ node_modules
 .env
 temp/
 upload/
+.nyc_output/
+coverage
