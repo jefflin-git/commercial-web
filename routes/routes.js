@@ -21,7 +21,7 @@ router.get('/signout', userController.logout)
 
 
 router.get('/', auth.authenticatedUser, cartController.getCart)
-router.get('/cart', auth.authenticatedUser, cartController.getCart)
+router.get('/cart', cartController.getCart)
 router.get('/products', productController.getProducts)
 router.get('/products/:id', productController.getProduct)
 router.post('/cart', cartController.postCart)
