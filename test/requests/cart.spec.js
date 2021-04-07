@@ -25,7 +25,6 @@ describe('# cart request', () => {
   })
   describe('add product to cart', () => {
     before((done) => {
-      await db.Cart.create({ CartId: 1 })
       done()
     })
     it('can redirect to product page when add product to cart', (done) => {
@@ -39,8 +38,17 @@ describe('# cart request', () => {
           return done()
         })
     })
-    it('will save product into cart', (done) => {
 
+    it('if user don`t have a cart, system will create one', (done) => {
+      db.Cart.findAll()
+        .then(cart => {
+          expect(cart).to.not.be.null
+          done()
+        })
+    })
+
+    after(async () => {
+      await db.Cart.destroy({ where: {}, truncate: true })
     })
   })
 })
