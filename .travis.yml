@@ -13,4 +13,4 @@ before_install:
   - npm install sequelize-cli -g
 # 在執行測試之前的指令
 before_script:
-  - sequelize db:migrate
+  - npx sequelize db:migrate
