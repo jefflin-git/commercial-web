@@ -1,7 +1,7 @@
 # .travis.yml
 language: node_js
 node_js:
-    - "10.15.0"
+    - "10"
 services:
   - mysql
 # 設定參數(Travis CI 會按照參數分別執行)
@@ -11,7 +11,6 @@ env:
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS commercial_test default character set utf8mb4 collate utf8mb4_unicode_ci;'
   - npm install sequelize-cli -g
-  - export SECRET=alphacamp
 # 在執行測試之前的指令
 before_script:
   - sequelize db:migrate
