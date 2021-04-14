@@ -110,7 +110,7 @@ let orderController = {
 
       req.flash('success_messages', '訂單已取消!')
 
-      return res.redirect('back')
+      return res.redirect('/orders')
     } catch (error) {
       console.log(error)
       res.render('error', { message: 'error !' })
