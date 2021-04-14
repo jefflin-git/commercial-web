@@ -49,6 +49,17 @@ describe('# order request', () => {
         })
     })
 
+    it('can go to payment page', (done) => {
+      request(app)
+        .get('/order/1/payment')
+        .set('Accept', 'application/json')
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return done(err)
+          return done()
+        })
+    })
+
     it('can cancel order', (done) => {
       request(app)
         .post('/order/1/cancel')
