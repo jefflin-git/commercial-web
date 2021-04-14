@@ -23,7 +23,7 @@ let orderController = {
         shipping_status: '-1',
         payment_status: '-1'
       })
-      return res.redirect('back')
+      return res.redirect('/admin/orders')
     } catch (error) {
       console.log(error)
       res.render('error', { message: 'error !' })
