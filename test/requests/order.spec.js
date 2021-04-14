@@ -74,5 +74,22 @@ describe('# order request', () => {
     })
   })
 
+  describe('(2) if user is visitor', () => {
+    before((done) => {
+      done()
+    })
+
+    it('visitor can`t into order page', (done) => {
+      request(app)
+        .get('/orders')
+        .set('Accept', 'application/json')
+        .expect(302)
+        .expect('Location', '/signin')
+        .end(function (err, res) {
+          if (err) return done(err)
+          return done()
+        })
+    })
+  })
 
 })
