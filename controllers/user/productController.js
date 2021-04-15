@@ -1,4 +1,4 @@
-const db = require('../models')
+const db = require('../../models')
 const { Product, Cart } = db
 const { Op } = require('sequelize')
 

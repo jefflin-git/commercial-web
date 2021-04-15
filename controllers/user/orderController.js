@@ -2,11 +2,11 @@ if (process.env.NODE_ENV !== 'produciton') {
   require('dotenv').config()
 }
 const nodemailer = require('nodemailer')
-const db = require('../models')
+const db = require('../../models')
 const { Order, Product, OrderItem, Cart } = db
-const getTradeInfo = require('../functions/tradeInfo')
-const { create_mpg_aes_decrypt } = require('../functions/encryptDecrypt')
-const helpers = require('../_helpers')
+const getTradeInfo = require('../../functions/tradeInfo')
+const { create_mpg_aes_decrypt } = require('../../functions/encryptDecrypt')
+const helpers = require('../../_helpers')
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',

@@ -1,4 +1,4 @@
-const db = require('../models')
+const db = require('../../models')
 const { Cart, CartItem, Product } = db
 
 const cartController = {

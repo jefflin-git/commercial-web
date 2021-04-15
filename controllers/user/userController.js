@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs')
-const db = require('../models')
+const db = require('../../models')
 const { User } = db
-const helpers = require('../_helpers')
+const helpers = require('../../_helpers')
 const userController = {
   signInPage: (_req, res) => {
     return res.render('signin')
