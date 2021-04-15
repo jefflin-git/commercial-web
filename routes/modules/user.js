@@ -1,12 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const passport = require('passport')
-const auth = require('../functions/auth')
+const auth = require('../../functions/auth')
 
-const userController = require('../controllers/userController')
-const cartController = require('../controllers/cartController')
-const productController = require('../controllers/productController')
-const orderController = require('../controllers/orderController')
+const userController = require('../../controllers/userController')
+const cartController = require('../../controllers/cartController')
+const productController = require('../../controllers/productController')
+const orderController = require('../../controllers/orderController')
 
 //註冊
 router.get('/signup', userController.signUpPage)

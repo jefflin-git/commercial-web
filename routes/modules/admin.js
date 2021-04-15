@@ -1,13 +1,13 @@
 const express = require('express')
 const router = express.Router()
 const passport = require('passport')
-const auth = require('../functions/auth')
+const auth = require('../../functions/auth')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 
-const adminController = require('../controllers/admin/adminController')
-const productController = require('../controllers/admin/productController')
-const orderController = require('../controllers/admin/orderController')
+const adminController = require('../../controllers/admin/adminController')
+const productController = require('../../controllers/admin/productController')
+const orderController = require('../../controllers/admin/orderController')
 
 // Admin
 router.get('/signin', adminController.AdminSignInPage)
