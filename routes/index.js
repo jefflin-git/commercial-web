@@ -6,7 +6,7 @@ const adminApi = require('./apis/admin')
 
 module.exports = app => {
   // app.use('/api/admin', adminApi)
-  // app.use('/api', userApi)
+  app.use('/api', userApi)
   app.use('/admin', admin)
   app.use('/auth', auth)
   app.use('/', user)
