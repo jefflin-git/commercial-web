@@ -46,7 +46,7 @@ let productController = {
       callback({ status: 'fail', message: 'error !' })
     }
   },
-  getProduct: async (req, res) => {
+  getProduct: async (req, res, callback) => {
     try {
       let totalPrice = 0
       const [product, cart] = await Promise.all([
@@ -58,14 +58,14 @@ let productController = {
 
       await product.increment('viewCounts', { by: 1 })
 
-      if (!cart) return res.render('product', { product: product.toJSON(), totalPrice })
+      if (!cart) return callback({ product: product.toJSON(), totalPrice })
 
       totalPrice = cart.items.length > 0 ? cart.items.map((d) => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
 
-      return res.render('product', { product: product.toJSON(), cart: cart.toJSON(), totalPrice })
+      return callback({ product: product.toJSON(), cart: cart.toJSON(), totalPrice })
     } catch (err) {
       console.log(err)
-      res.render('error', { message: 'error !' })
+      callback({ status: 'fail', message: 'error !' })
     }
   }
 }
