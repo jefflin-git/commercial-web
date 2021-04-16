@@ -1,22 +1,24 @@
-const cartService = require('../../services/user/cartService')
+const db = require('../../models')
+const { Cart, CartItem, Product } = db
 
 const cartController = {
-  getCart: (req, res) => {
-    cartService.getCart(req, res, (data) => {
-      switch (data['status']) {
-        case 'success':
-          req.flash('success_messages', data['message'])
-          res.render('cart', data)
-          break
-        case 'error':
-          res.render('error', { message: 'error !' })
-          break
-        case 'fail':
-          req.flash('error_messages', data['message'])
-          res.redirect('back')
-          break
-      }
-    })
+  getCart: async (req, res, callback) => {
+    try {
+      let totalPrice = 0
+      const cart = await Cart.findByPk(req.session.cartId, {
+        include: [{ model: Product, as: 'items' }],
+      })
+      if (!cart) return callback({ status: 'success', totalPrice })
+      totalPrice = cart.items.length > 0 ? cart.items.map((d) => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+      return callback({
+        status: 'success',
+        cart: cart.toJSON(),
+        totalPrice
+      })
+    } catch (error) {
+      console.log(error)
+      callback({ status: 'error', message: 'error !' })
+    }
   },
   postCart: async (req, res) => {
     try {
