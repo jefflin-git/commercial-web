@@ -27,7 +27,7 @@ let productController = {
       ])
 
       if (!products.rows.length) {
-        req.flash('error_messages', `找不到和${keyword}有關的商品 !`)
+        callback({ status: 'fail', message: `找不到和${keyword}有關的商品 !` })
         res.redirect('back')
       }
 
@@ -36,14 +36,14 @@ let productController = {
       const prev = page - 1 < 1 ? 1 : page - 1
       const next = page + 1 > pages ? pages : page + 1
 
-      if (!cart) return callback({ products, totalPrice, totalPage, prev, next, keyword })
+      if (!cart) return callback({ status: 'success', products, totalPrice, totalPage, prev, next, keyword })
 
       totalPrice = cart.items.length > 0 ? cart.items.map((d) => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
 
-      return callback({ products, totalPrice, cart: cart.toJSON(), totalPrice, totalPage, prev, next, keyword })
+      return callback({ status: 'success', products, totalPrice, cart: cart.toJSON(), totalPrice, totalPage, prev, next, keyword })
     } catch (error) {
       console.log(error)
-      callback({ status: 'fail', message: 'error !' })
+      callback({ status: 'error', message: 'error !' })
     }
   },
   getProduct: async (req, res, callback) => {
@@ -58,14 +58,14 @@ let productController = {
 
       await product.increment('viewCounts', { by: 1 })
 
-      if (!cart) return callback({ product: product.toJSON(), totalPrice })
+      if (!cart) return callback({ status: 'success', product: product.toJSON(), totalPrice })
 
       totalPrice = cart.items.length > 0 ? cart.items.map((d) => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
 
-      return callback({ product: product.toJSON(), cart: cart.toJSON(), totalPrice })
+      return callback({ status: 'success', product: product.toJSON(), cart: cart.toJSON(), totalPrice })
     } catch (err) {
       console.log(err)
-      callback({ status: 'fail', message: 'error !' })
+      callback({ status: 'error', message: 'error !' })
     }
   }
 }
