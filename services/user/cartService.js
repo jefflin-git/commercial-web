@@ -20,7 +20,7 @@ const cartController = {
       callback({ status: 'error', message: 'error !' })
     }
   },
-  postCart: async (req, res) => {
+  postCart: async (req, res, callback) => {
     try {
       const cart = await Cart.findOrCreate({ where: { id: req.session.cartId || 0 } })
       const { id: CartId } = cart[0].dataValues
@@ -39,10 +39,10 @@ const cartController = {
       })
       req.session.cartId = CartId
       req.session.save()
-      res.redirect('back')
+      callback({ status: 'success', message: '成功加入購物車' })
     } catch (error) {
       console.log(error)
-      res.render('error', { message: 'error !' })
+      callback({ status: 'error', message: 'error !' })
     }
   },
   addCartItem: async (req, res) => {
