@@ -57,12 +57,20 @@ const cartController = {
       callback({ status: 'error', message: '新增失敗' })
     }
   },
-  subCartItem: async (req, res) => {
-    const cartItem = await CartItem.findByPk(req.params.id)
-    await cartItem.update({
-      quantity: cartItem.quantity > 1 ? cartItem.quantity - 1 : 1,
-    })
-    res.redirect('back')
+  subCartItem: async (req, res, callback) => {
+    try {
+      const cartItem = await CartItem.findByPk(req.params.id)
+      if (cartItem.quantity > 1) {
+        await cartItem.update({
+          quantity: cartItem.quantity - 1
+        })
+        callback({ status: 'success', message: '減少成功' })
+      }
+      callback({ status: 'fail', message: '商品數量最少為1，若不需此商品，請點擊垃圾桶刪除' })
+    } catch (error) {
+      console.log(error)
+      callback({ status: 'error', message: '減少失敗' })
+    }
   },
   deleteCartItem: async (req, res) => {
     const cartItem = await CartItem.findByPk(req.params.id)

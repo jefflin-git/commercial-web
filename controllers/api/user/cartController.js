@@ -15,6 +15,11 @@ const cartController = {
     cartService.addCartItem(req, res, (data) => {
       return res.json(data)
     })
+  },
+  subCartItem: (req, res) => {
+    cartService.subCartItem(req, res, (data) => {
+      return res.json(data)
+    })
   }
 }
 
