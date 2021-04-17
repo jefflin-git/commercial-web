@@ -20,6 +20,11 @@ let productController = {
     productService.postProduct(req, res, (data) => {
       return res.json(data)
     })
+  },
+  putProduct: (req, res) => {
+    productService.putProduct(req, res, (data) => {
+      return res.json(data)
+    })
   }
 }
 

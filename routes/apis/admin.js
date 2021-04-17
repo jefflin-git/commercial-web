@@ -22,6 +22,7 @@ router.get('/products', authenticated, authenticatedAdmin, productController.get
 router.get('/products/:id', authenticated, authenticatedAdmin, productController.getProduct)
 router.delete('/products/:id', authenticated, authenticatedAdmin, productController.deleteProduct)
 router.post('/products/new', authenticated, authenticatedAdmin, upload.single('image'), productController.postProduct)
+router.put('/products/:id', authenticated, authenticatedAdmin, upload.single('image'), productController.putProduct)
 
 module.exports = router
 

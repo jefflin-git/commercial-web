@@ -86,40 +86,23 @@ let productController = {
       }
     })
   },
-  putProduct: async (req, res) => {
-    try {
-      const { name, description, price } = req.body
+  putProduct: (req, res) => {
+    productService.putProduct(req, res, (data) => {
       const id = req.params.id
-      if (!name || !description || !price) {
-        req.flash('error_messages', '請完成所有欄位!')
-        return res.redirect(`/admin/products/${id}`)
+      switch (data['status']) {
+        case 'success':
+          req.flash('success_messages', data['message'])
+          res.redirect(`/admin/products/${id}`)
+          break
+        case 'error':
+          res.render('error', { message: 'error !' })
+          break
+        case 'fail':
+          req.flash('error_messages', data['message'])
+          res.redirect(`/admin/products/${id}`)
+          break
       }
-
-      const product = await Product.findByPk(id)
-
-      if (req.file) {
-        imgur.setClientId(IMGUR_CLIENT_ID)
-        const img = await imgur.uploadFile(req.file.path)
-        await product.update({
-          name,
-          description,
-          price,
-          image: img.link
-        })
-        req.flash('success_messages', '成功更新商品')
-        return res.redirect(`/admin/products/${id}`)
-      }
-      await product.update({
-        name,
-        description,
-        price
-      })
-      req.flash('success_messages', '成功更新商品')
-      return res.redirect(`/admin/products/${id}`)
-    } catch (err) {
-      console.log(err)
-      res.render('error', { message: 'error !' })
-    }
+    })
   }
 }
 

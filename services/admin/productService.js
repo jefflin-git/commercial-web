@@ -92,13 +92,12 @@ let productController = {
       callback({ status: 'error', message: '新增商品失敗' })
     }
   },
-  putProduct: async (req, res) => {
+  putProduct: async (req, res, callback) => {
     try {
       const { name, description, price } = req.body
       const id = req.params.id
       if (!name || !description || !price) {
-        req.flash('error_messages', '請完成所有欄位!')
-        return res.redirect(`/admin/products/${id}`)
+        callback({ status: 'fail', message: '請完成所有欄位', name, description, price })
       }
 
       const product = await Product.findByPk(id)
@@ -112,19 +111,17 @@ let productController = {
           price,
           image: img.link
         })
-        req.flash('success_messages', '成功更新商品')
-        return res.redirect(`/admin/products/${id}`)
+        callback({ status: 'success', message: '成功更新商品資料' })
       }
       await product.update({
         name,
         description,
         price
       })
-      req.flash('success_messages', '成功更新商品')
-      return res.redirect(`/admin/products/${id}`)
+      callback({ status: 'success', message: '成功更新商品資料' })
     } catch (err) {
       console.log(err)
-      res.render('error', { message: 'error !' })
+      callback({ status: 'error', message: '更新商品資料失敗' })
     }
   }
 }
