@@ -69,10 +69,22 @@ const cartController = {
       }
     })
   },
-  deleteCartItem: async (req, res) => {
-    const cartItem = await CartItem.findByPk(req.params.id)
-    await cartItem.destroy()
-    res.redirect('back')
+  deleteCartItem: (req, res) => {
+    cartService.deleteCartItem(req, res, (data) => {
+      switch (data['status']) {
+        case 'success':
+          req.flash('success_messages', data['message'])
+          res.redirect('back')
+          break
+        case 'error':
+          res.render('error', { message: 'error !' })
+          break
+        case 'fail':
+          req.flash('error_messages', data['message'])
+          res.redirect('back')
+          break
+      }
+    })
   }
 }
 

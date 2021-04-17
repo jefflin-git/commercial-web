@@ -72,10 +72,15 @@ const cartController = {
       callback({ status: 'error', message: '減少失敗' })
     }
   },
-  deleteCartItem: async (req, res) => {
-    const cartItem = await CartItem.findByPk(req.params.id)
-    await cartItem.destroy()
-    res.redirect('back')
+  deleteCartItem: async (req, res, callback) => {
+    try {
+      const cartItem = await CartItem.findByPk(req.params.id)
+      await cartItem.destroy()
+      callback({ status: 'success', message: '刪除成功' })
+    } catch (error) {
+      console.log(error)
+      callback({ status: 'error', message: '刪除失敗' })
+    }
   }
 }
 

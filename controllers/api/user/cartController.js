@@ -20,6 +20,11 @@ const cartController = {
     cartService.subCartItem(req, res, (data) => {
       return res.json(data)
     })
+  },
+  deleteCartItem: (req, res) => {
+    cartService.deleteCartItem(req, res, (data) => {
+      return res.json(data)
+    })
   }
 }
 
