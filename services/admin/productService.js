@@ -1,22 +1,47 @@
-const productService = require('../../services/admin/productService')
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+const imgur = require('imgur')
+const { IMGUR_CLIENT_ID } = process.env.IMGUR_CLIENT_ID
+const db = require('../../models')
+const { Product, Cart } = db
+const { Op } = require('sequelize')
 
 let productController = {
-  getProducts: (req, res) => {
-    productService.getProducts(req, res, (data) => {
-      switch (data['status']) {
-        case 'success':
-          req.flash('success_messages', data['message'])
-          res.render('admin/products', data)
-          break
-        case 'error':
-          res.render('error', { message: 'error !' })
-          break
-        case 'fail':
-          req.flash('error_messages', data['message'])
-          res.redirect('back')
-          break
+  getProducts: async (req, res, callback) => {
+    try {
+      const pageLimit = 9
+      let pageOffset = 0
+      const page = Number(req.query.page || 1)
+      if (page) {
+        pageOffset = (page - 1) * pageLimit
       }
-    })
+
+      let whereQuery = {}
+      const keyword = req.query.keyword ? req.query.keyword : ''
+      if (keyword) {
+        whereQuery.name = { [Op.like]: `%${keyword}%` }
+      }
+
+      const [products] = await Promise.all([
+        Product.findAndCountAll({ raw: true, nest: true, offset: pageOffset, limit: pageLimit, where: whereQuery, order: [['id', 'ASC']] })
+      ])
+
+      if (!products.rows.length) {
+        callback({ status: 'fail', massage: `找不到和${keyword}有關的商品 !` })
+        return res.redirect('back')
+      }
+
+      const pages = Math.ceil(products.count / pageLimit)
+      const totalPage = Array.from({ length: pages }).map((item, index) => item = index + 1)
+      const prev = page - 1 < 1 ? 1 : page - 1
+      const next = page + 1 > pages ? pages : page + 1
+
+      return callback({ status: 'success', products, totalPage, prev, next, keyword })
+    } catch (error) {
+      console.log(error)
+      callback({ status: 'error', message: '取得全部商品失敗' })
+    }
   },
   getProduct: async (req, res) => {
     try {

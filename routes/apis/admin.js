@@ -12,8 +12,11 @@ const express = require('express')
 const router = express.Router()
 
 const userController = require('../../controllers/api/user/userController')
+const productController = require('../../controllers/api/admin/productController')
 
 router.post('/signin', userController.signIn)
+
+router.get('/products', authenticated, authenticatedAdmin, productController.getProducts)
 
 module.exports = router
 
