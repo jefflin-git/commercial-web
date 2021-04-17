@@ -1,19 +1,22 @@
-const db = require('../../models')
-const { Order, Product } = db
+const orderService = require('../../services/admin/orderService')
 
 let orderController = {
-  getOrders: async (req, res) => {
-    try {
-      const orders = await Order.findAll({
-        include: [{ model: Product, as: 'items' }],
-        order: [['id', 'DESC']]
-      })
-      const ordersJSON = orders.map((order) => order.toJSON())
-      return res.render('admin/orders', { orders: ordersJSON })
-    } catch (error) {
-      console.log(error)
-      res.render('error', { message: 'error !' })
-    }
+  getOrders: (req, res) => {
+    orderService.getOrders(req, res, (data) => {
+      switch (data['status']) {
+        case 'success':
+          req.flash('success_messages', data['message'])
+          res.render('admin/orders', data)
+          break
+        case 'error':
+          res.render('error', { message: 'error !' })
+          break
+        case 'fail':
+          req.flash('error_messages', data['message'])
+          res.redirect('back')
+          break
+      }
+    })
   },
   cancelOrder: async (req, res) => {
     try {

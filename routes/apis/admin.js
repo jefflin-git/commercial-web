@@ -15,6 +15,7 @@ const router = express.Router()
 
 const userController = require('../../controllers/api/user/userController')
 const productController = require('../../controllers/api/admin/productController')
+const orderController = require('../../controllers/api/admin/orderController')
 
 router.post('/signin', userController.signIn)
 
@@ -23,6 +24,8 @@ router.get('/products/:id', authenticated, authenticatedAdmin, productController
 router.delete('/products/:id', authenticated, authenticatedAdmin, productController.deleteProduct)
 router.post('/products/new', authenticated, authenticatedAdmin, upload.single('image'), productController.postProduct)
 router.put('/products/:id', authenticated, authenticatedAdmin, upload.single('image'), productController.putProduct)
+
+router.get('/orders', authenticated, authenticatedAdmin, orderController.getOrders)
 
 module.exports = router
 
