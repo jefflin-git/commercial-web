@@ -35,12 +35,22 @@ const cartController = {
       }
     })
   },
-  addCartItem: async (req, res) => {
-    const cartItem = await CartItem.findByPk(req.params.id)
-    await cartItem.update({
-      quantity: cartItem.quantity + 1
+  addCartItem: (req, res) => {
+    cartService.addCartItem(req, res, (data) => {
+      switch (data['status']) {
+        case 'success':
+          req.flash('success_messages', data['message'])
+          res.redirect('back')
+          break
+        case 'error':
+          res.render('error', { message: 'error !' })
+          break
+        case 'fail':
+          req.flash('error_messages', data['message'])
+          res.redirect('back')
+          break
+      }
     })
-    res.redirect('back')
   },
   subCartItem: async (req, res) => {
     const cartItem = await CartItem.findByPk(req.params.id)

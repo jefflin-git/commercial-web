@@ -45,12 +45,17 @@ const cartController = {
       callback({ status: 'error', message: 'error !' })
     }
   },
-  addCartItem: async (req, res) => {
-    const cartItem = await CartItem.findByPk(req.params.id)
-    await cartItem.update({
-      quantity: cartItem.quantity + 1
-    })
-    res.redirect('back')
+  addCartItem: async (req, res, callback) => {
+    try {
+      const cartItem = await CartItem.findByPk(req.params.id)
+      await cartItem.update({
+        quantity: cartItem.quantity + 1
+      })
+      callback({ status: 'success', message: '新增成功' })
+    } catch (error) {
+      console.log(error)
+      callback({ status: 'error', message: '新增失敗' })
+    }
   },
   subCartItem: async (req, res) => {
     const cartItem = await CartItem.findByPk(req.params.id)
