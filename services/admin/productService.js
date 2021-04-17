@@ -28,8 +28,7 @@ let productController = {
       ])
 
       if (!products.rows.length) {
-        callback({ status: 'fail', massage: `找不到和${keyword}有關的商品 !` })
-        return res.redirect('back')
+        callback({ status: 'fail', message: `找不到和${keyword}有關的商品 !` })
       }
 
       const pages = Math.ceil(products.count / pageLimit)
