@@ -17,6 +17,7 @@ const productController = require('../../controllers/api/admin/productController
 router.post('/signin', userController.signIn)
 
 router.get('/products', authenticated, authenticatedAdmin, productController.getProducts)
+router.get('/products/:id', authenticated, authenticatedAdmin, productController.getProduct)
 
 module.exports = router
 

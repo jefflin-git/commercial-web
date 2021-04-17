@@ -18,17 +18,22 @@ let productController = {
       }
     })
   },
-  getProduct: async (req, res) => {
-    try {
-      const [product] = await Promise.all([
-        Product.findByPk(req.params.id)
-      ])
-
-      return res.render('admin/product', { product: product.toJSON() })
-    } catch (err) {
-      console.log(err)
-      res.render('error', { message: 'error !' })
-    }
+  getProduct: (req, res) => {
+    productService.getProduct(req, res, (data) => {
+      switch (data['status']) {
+        case 'success':
+          req.flash('success_messages', data['message'])
+          res.render('admin/product', data)
+          break
+        case 'error':
+          res.render('error', { message: 'error !' })
+          break
+        case 'fail':
+          req.flash('error_messages', data['message'])
+          res.redirect('back')
+          break
+      }
+    })
   },
   deleteProduct: async (req, res) => {
     try {

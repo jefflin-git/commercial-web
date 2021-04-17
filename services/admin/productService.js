@@ -42,16 +42,15 @@ let productController = {
       callback({ status: 'error', message: '取得全部商品失敗' })
     }
   },
-  getProduct: async (req, res) => {
+  getProduct: async (req, res, callback) => {
     try {
       const [product] = await Promise.all([
         Product.findByPk(req.params.id)
       ])
-
-      return res.render('admin/product', { product: product.toJSON() })
+      return callback({ status: 'success', product: product.toJSON() })
     } catch (err) {
       console.log(err)
-      res.render('error', { message: 'error !' })
+      callback({ status: 'error', message: '取特定商品失敗' })
     }
   },
   deleteProduct: async (req, res) => {
