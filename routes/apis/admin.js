@@ -26,6 +26,7 @@ router.post('/products/new', authenticated, authenticatedAdmin, upload.single('i
 router.put('/products/:id', authenticated, authenticatedAdmin, upload.single('image'), productController.putProduct)
 
 router.get('/orders', authenticated, authenticatedAdmin, orderController.getOrders)
+router.post('/order/:id/cancel', authenticated, authenticatedAdmin, orderController.cancelOrder)
 
 module.exports = router
 

@@ -15,7 +15,7 @@ let orderController = {
       callback({ status: 'error', message: '取得全部訂單失敗' })
     }
   },
-  cancelOrder: async (req, res) => {
+  cancelOrder: async (req, res, callback) => {
     try {
       const order = await Order.findByPk(req.params.id)
       await order.update({
@@ -23,10 +23,10 @@ let orderController = {
         shipping_status: '-1',
         payment_status: '-1'
       })
-      return res.redirect('/admin/orders')
+      callback({ status: 'success', message: '取消訂單成功' })
     } catch (error) {
       console.log(error)
-      res.render('error', { message: 'error !' })
+      callback({ status: 'error', message: '取消訂單失敗' })
     }
   }
 }
