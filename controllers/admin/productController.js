@@ -35,16 +35,22 @@ let productController = {
       }
     })
   },
-  deleteProduct: async (req, res) => {
-    try {
-      const product = await Product.findByPk(req.params.id)
-      await product.destroy()
-      req.flash('success_messages', '刪除成功 !')
-      res.redirect('/admin/products')
-    } catch (err) {
-      console.log(err)
-      res.render('error', { message: 'error !' })
-    }
+  deleteProduct: (req, res) => {
+    productService.deleteProduct(req, res, (data) => {
+      switch (data['status']) {
+        case 'success':
+          req.flash('success_messages', data['message'])
+          res.redirect('/admin/products')
+          break
+        case 'error':
+          res.render('error', { message: 'error !' })
+          break
+        case 'fail':
+          req.flash('error_messages', data['message'])
+          res.redirect('back')
+          break
+      }
+    })
   },
   addProduct: async (req, res) => {
     try {

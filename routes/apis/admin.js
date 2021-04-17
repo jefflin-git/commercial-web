@@ -18,6 +18,7 @@ router.post('/signin', userController.signIn)
 
 router.get('/products', authenticated, authenticatedAdmin, productController.getProducts)
 router.get('/products/:id', authenticated, authenticatedAdmin, productController.getProduct)
+router.delete('/products/:id', authenticated, authenticatedAdmin, productController.deleteProduct)
 
 module.exports = router
 

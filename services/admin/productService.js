@@ -53,15 +53,14 @@ let productController = {
       callback({ status: 'error', message: '取特定商品失敗' })
     }
   },
-  deleteProduct: async (req, res) => {
+  deleteProduct: async (req, res, callback) => {
     try {
       const product = await Product.findByPk(req.params.id)
       await product.destroy()
-      req.flash('success_messages', '刪除成功 !')
-      res.redirect('/admin/products')
+      callback({ status: 'success', message: '刪除商品成功' })
     } catch (err) {
       console.log(err)
-      res.render('error', { message: 'error !' })
+      callback({ status: 'error', message: '刪除商品失敗' })
     }
   },
   addProduct: async (req, res) => {

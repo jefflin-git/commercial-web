@@ -10,6 +10,11 @@ let productController = {
     productService.getProduct(req, res, (data) => {
       return res.json(data)
     })
+  },
+  deleteProduct: (req, res) => {
+    productService.deleteProduct(req, res, (data) => {
+      return res.json(data)
+    })
   }
 }
 
