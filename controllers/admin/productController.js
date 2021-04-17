@@ -52,13 +52,22 @@ let productController = {
       }
     })
   },
-  addProduct: async (req, res) => {
-    try {
-      return res.render('admin/addProduct')
-    } catch (err) {
-      console.log(err)
-      res.render('error', { message: 'error !' })
-    }
+  addProduct: (req, res) => {
+    productService.addProduct(req, res, (data) => {
+      switch (data['status']) {
+        case 'success':
+          req.flash('success_messages', data['message'])
+          res.render('admin/addProduct')
+          break
+        case 'error':
+          res.render('error', { message: 'error !' })
+          break
+        case 'fail':
+          req.flash('error_messages', data['message'])
+          res.redirect('back')
+          break
+      }
+    })
   },
   postProduct: async (req, res) => {
     try {

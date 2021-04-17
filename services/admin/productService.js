@@ -63,12 +63,12 @@ let productController = {
       callback({ status: 'error', message: '刪除商品失敗' })
     }
   },
-  addProduct: async (req, res) => {
+  addProduct: async (req, res, callback) => {
     try {
-      return res.render('admin/addProduct')
+      callback({ status: 'success' })
     } catch (err) {
       console.log(err)
-      res.render('error', { message: 'error !' })
+      callback({ status: 'error', message: 'error !' })
     }
   },
   postProduct: async (req, res) => {
