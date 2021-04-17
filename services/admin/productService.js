@@ -71,12 +71,11 @@ let productController = {
       callback({ status: 'error', message: 'error !' })
     }
   },
-  postProduct: async (req, res) => {
+  postProduct: async (req, res, callback) => {
     try {
       const { name, description, price } = req.body
       if (!name || !description || !price || !req.file) {
-        req.flash('error_messages', '請完成所有欄位!')
-        return res.redirect('/admin/products/new', { name, description, price })
+        callback({ status: 'fail', message: '請完成所有欄位', name, description, price })
       }
 
       imgur.setClientId(IMGUR_CLIENT_ID)
@@ -87,12 +86,10 @@ let productController = {
         price,
         image: img.link
       })
-
-      req.flash('success_messages', '成功新增商品')
-      return res.redirect('/admin/products')
+      callback({ status: 'success', message: '成功新增商品' })
     } catch (err) {
       console.log(err)
-      res.render('error', { message: 'error !' })
+      callback({ status: 'error', message: '新增商品失敗' })
     }
   },
   putProduct: async (req, res) => {

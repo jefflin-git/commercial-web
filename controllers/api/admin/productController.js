@@ -15,6 +15,11 @@ let productController = {
     productService.deleteProduct(req, res, (data) => {
       return res.json(data)
     })
+  },
+  postProduct: (req, res) => {
+    productService.postProduct(req, res, (data) => {
+      return res.json(data)
+    })
   }
 }
 
