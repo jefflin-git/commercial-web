@@ -31,20 +31,18 @@ let orderController = {
       callback({ status: 'error', message: '取得訂單資料失敗' })
     }
   },
-  postOrder: async (req, res) => {
+  postOrder: async (req, res, callback) => {
     try {
       const { cartId, name, address, phone, amount, shipping_status, payment_status } = req.body
 
       if (!name && !phone && !address) {
-        req.flash('error_messages', '請填寫所有表格!')
-        res.redirect('back')
+        callback({ status: 'fail', message: '請填寫所有表格!' })
       }
 
       const cart = await Cart.findByPk(cartId, { include: [{ model: Product, as: 'items' }] })
 
       if (!cart) {
-        req.flash('error_messages', '購物車內沒有商品，請加入商品!')
-        return res.redirect('back')
+        callback({ status: 'fail', message: '購物車內沒有商品無法成立訂單，請先加入商品!' })
       }
 
       const order = await Order.create({
@@ -81,11 +79,10 @@ let orderController = {
       })
 
       await Promise.all([...createOrderItem, mailSent])
-      req.flash('success_messages', '訂單已成立，請查看您的電子信箱!')
-      return res.redirect('/orders')
+      callback({ status: 'success', message: '訂單已成立，請查看您的電子信箱!' })
     } catch (error) {
       console.log(error)
-      res.render('error', { message: 'error !' })
+      callback({ status: 'error', message: '訂單成立失敗' })
     }
   },
   cancelOrder: async (req, res) => {

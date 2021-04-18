@@ -22,5 +22,6 @@ router.post('/cartItem/:id/sub', cartController.subCartItem)
 router.delete('/cartItem/:id', cartController.deleteCartItem)
 
 router.get('/orders', authenticated, orderController.getOrders)
+router.post('/order', authenticated, orderController.postOrder)
 
 module.exports = router

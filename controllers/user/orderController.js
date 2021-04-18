@@ -18,62 +18,22 @@ let orderController = {
       }
     })
   },
-  postOrder: async (req, res) => {
-    try {
-      const { cartId, name, address, phone, amount, shipping_status, payment_status } = req.body
-
-      if (!name && !phone && !address) {
-        req.flash('error_messages', '請填寫所有表格!')
-        res.redirect('back')
+  postOrder: (req, res) => {
+    orderService.postOrder(req, res, (data) => {
+      switch (data['status']) {
+        case 'success':
+          req.flash('success_messages', data['message'])
+          res.redirect('/orders')
+          break
+        case 'error':
+          res.render('error', { message: 'error !' })
+          break
+        case 'fail':
+          req.flash('error_messages', data['message'])
+          res.redirect('back')
+          break
       }
-
-      const cart = await Cart.findByPk(cartId, { include: [{ model: Product, as: 'items' }] })
-
-      if (!cart) {
-        req.flash('error_messages', '購物車內沒有商品，請加入商品!')
-        return res.redirect('back')
-      }
-
-      const order = await Order.create({
-        name,
-        address,
-        phone,
-        shipping_status,
-        payment_status,
-        amount,
-        UserId: helpers.getUser(req).id
-      })
-
-      const createOrderItem = cart.items.map(product => {
-        OrderItem.create({
-          OrderId: order.id,
-          ProductId: product.id,
-          price: product.price,
-          quantity: product.CartItem.quantity
-        })
-      })
-
-      const mailOptions = {
-        from: process.env.MY_EMAIL,
-        to: address,
-        subject: `Order id: ${order.id} is created`,
-        text: `Order id: ${order.id} is created. You can now go to website and proceed with payment.`
-      }
-      const mailSent = transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error)
-        } else {
-          console.log(`Email sent: ${mailSent.response}` + info.response)
-        }
-      })
-
-      await Promise.all([...createOrderItem, mailSent])
-      req.flash('success_messages', '訂單已成立，請查看您的電子信箱!')
-      return res.redirect('/orders')
-    } catch (error) {
-      console.log(error)
-      res.render('error', { message: 'error !' })
-    }
+    })
   },
   cancelOrder: async (req, res) => {
     try {
