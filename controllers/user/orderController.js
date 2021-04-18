@@ -35,33 +35,22 @@ let orderController = {
       }
     })
   },
-  cancelOrder: async (req, res) => {
-    try {
-      const order = await Order.findByPk(req.params.id)
-
-      if (order.payment_status === '1') {
-        await order.update({
-          ...req.body,
-          shipping_status: '-1',
-          payment_status: '-1'
-        })
-        req.flash('success_messages', '訂單已取消，退款作業處理中!')
-        return res.redirect('back')
+  cancelOrder: (req, res) => {
+    orderService.cancelOrder(req, res, (data) => {
+      switch (data['status']) {
+        case 'success':
+          req.flash('success_messages', data['message'])
+          res.redirect('back')
+          break
+        case 'error':
+          res.render('error', { message: 'error !' })
+          break
+        case 'fail':
+          req.flash('error_messages', data['message'])
+          res.redirect('back')
+          break
       }
-
-      await order.update({
-        ...req.body,
-        shipping_status: '-1',
-        payment_status: '-1'
-      })
-
-      req.flash('success_messages', '訂單已取消!')
-
-      return res.redirect('/orders')
-    } catch (error) {
-      console.log(error)
-      res.render('error', { message: 'error !' })
-    }
+    })
   },
   getPayment: async (req, res) => {
     try {

@@ -10,6 +10,11 @@ let orderController = {
     orderService.postOrder(req, res, (data) => {
       return res.json(data)
     })
+  },
+  cancelOrder: (req, res) => {
+    orderService.cancelOrder(req, res, (data) => {
+      return res.json(data)
+    })
   }
 }
 

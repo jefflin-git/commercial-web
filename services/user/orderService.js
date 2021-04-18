@@ -85,7 +85,7 @@ let orderController = {
       callback({ status: 'error', message: '訂單成立失敗' })
     }
   },
-  cancelOrder: async (req, res) => {
+  cancelOrder: async (req, res, callback) => {
     try {
       const order = await Order.findByPk(req.params.id)
 
@@ -95,8 +95,7 @@ let orderController = {
           shipping_status: '-1',
           payment_status: '-1'
         })
-        req.flash('success_messages', '訂單已取消，退款作業處理中!')
-        return res.redirect('back')
+        return callback({ status: 'success', message: '訂單已取消，退款作業處理中!' })
       }
 
       await order.update({
@@ -105,12 +104,10 @@ let orderController = {
         payment_status: '-1'
       })
 
-      req.flash('success_messages', '訂單已取消!')
-
-      return res.redirect('/orders')
+      return callback({ status: 'success', message: '訂單已取消，您不需支付任何費用!' })
     } catch (error) {
       console.log(error)
-      res.render('error', { message: 'error !' })
+      callback({ status: 'error', message: '訂單已取消失敗' })
     }
   },
   getPayment: async (req, res) => {
