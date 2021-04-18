@@ -1,22 +1,35 @@
-const orderService = require('../../services/user/orderService')
+if (process.env.NODE_ENV !== 'produciton') {
+  require('dotenv').config()
+}
+const nodemailer = require('nodemailer')
+const db = require('../../models')
+const { Order, Product, OrderItem, Cart } = db
+const getTradeInfo = require('../../functions/tradeInfo')
+const { create_mpg_aes_decrypt } = require('../../functions/encryptDecrypt')
+const helpers = require('../../_helpers')
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.MY_EMAIL,
+    pass: process.env.GMAIL_PASSWORD
+  }
+})
 
 let orderController = {
-  getOrders: (req, res) => {
-    orderService.getOrders(req, res, (data) => {
-      switch (data['status']) {
-        case 'success':
-          req.flash('success_messages', data['message'])
-          res.render('orders', data)
-          break
-        case 'error':
-          res.render('error', { message: 'error !' })
-          break
-        case 'fail':
-          req.flash('error_messages', data['message'])
-          res.redirect('back')
-          break
-      }
-    })
+  getOrders: async (req, res, callback) => {
+    try {
+      const orders = await Order.findAll({
+        include: [{ model: Product, as: 'items' }],
+        where: { UserId: helpers.getUser(req).id },
+        order: [['id', 'DESC']]
+      })
+      const ordersJSON = orders.map((order) => order.toJSON())
+      return callback({ status: 'success', orders: ordersJSON })
+    } catch (error) {
+      console.log(error)
+      callback({ status: 'error', message: '取得訂單資料失敗' })
+    }
   },
   postOrder: async (req, res) => {
     try {
