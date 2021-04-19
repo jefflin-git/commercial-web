@@ -52,20 +52,22 @@ let orderController = {
       }
     })
   },
-  getPayment: async (req, res) => {
-    try {
-      const order = await Order.findByPk(req.params.id)
-      const tradeInfo = getTradeInfo(order.amount, '產品名稱', process.env.MY_EMAIL
-      )
-      const updatedOrder = await order.update({
-        ...req.body,
-        sn: tradeInfo.MerchantOrderNo
-      })
-      return res.render('payment', { order: updatedOrder.toJSON(), tradeInfo })
-    } catch (error) {
-      console.log(error)
-      res.render('error', { message: 'error !' })
-    }
+  getPayment: (req, res) => {
+    orderService.getPayment(req, res, (data) => {
+      switch (data['status']) {
+        case 'success':
+          req.flash('success_messages', data['message'])
+          res.render('payment', data)
+          break
+        case 'error':
+          res.render('error', { message: 'error !' })
+          break
+        case 'fail':
+          req.flash('error_messages', data['message'])
+          res.redirect('back')
+          break
+      }
+    })
   },
   spgatewayCallback: async (req, res) => {
     try {

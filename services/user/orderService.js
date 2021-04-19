@@ -110,7 +110,7 @@ let orderController = {
       callback({ status: 'error', message: '訂單已取消失敗' })
     }
   },
-  getPayment: async (req, res) => {
+  getPayment: async (req, res, callback) => {
     try {
       const order = await Order.findByPk(req.params.id)
       const tradeInfo = getTradeInfo(order.amount, '產品名稱', process.env.MY_EMAIL
@@ -119,10 +119,10 @@ let orderController = {
         ...req.body,
         sn: tradeInfo.MerchantOrderNo
       })
-      return res.render('payment', { order: updatedOrder.toJSON(), tradeInfo })
+      return callback({ status: 'success', order: updatedOrder.toJSON(), tradeInfo })
     } catch (error) {
       console.log(error)
-      res.render('error', { message: 'error !' })
+      callback({ status: 'error', message: '抓取付款資料失敗' })
     }
   },
   spgatewayCallback: async (req, res) => {
