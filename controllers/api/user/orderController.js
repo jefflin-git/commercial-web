@@ -20,6 +20,11 @@ let orderController = {
     orderService.getPayment(req, res, (data) => {
       return res.json(data)
     })
+  },
+  spgatewayCallback: (req, res) => {
+    orderService.spgatewayCallback(req, res, (data) => {
+      return res.json(data)
+    })
   }
 }
 

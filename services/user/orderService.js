@@ -125,7 +125,7 @@ let orderController = {
       callback({ status: 'error', message: '抓取付款資料失敗' })
     }
   },
-  spgatewayCallback: async (req, res) => {
+  spgatewayCallback: async (req, res, callback) => {
     try {
       const data = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo))
 
@@ -138,12 +138,11 @@ let orderController = {
         payment_status: 1
       })
 
-      return res.redirect('/orders')
+      return callback({ status: 'success', message: '付款成功' })
     } catch (error) {
       console.log(error)
-      res.render('error', { message: 'error !' })
+      callback({ status: 'error', message: '付款失敗' })
     }
-    return res.redirect('/orders')
   }
 }
 
