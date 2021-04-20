@@ -1,10 +1,10 @@
-const express = require('express')
-const app = express()
-
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 const routers = require('./routes')
+
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger_output.json')
 
 const port = process.env.PORT || 3000
 
@@ -15,6 +15,8 @@ const session = require('express-session')
 const flash = require('connect-flash')
 const passport = require('./config/passport')
 const helpers = require('./_helpers')
+const express = require('express')
+const app = express()
 
 app.engine('handlebars', handlebars({ defaultLayout: 'main', helpers: require('./functions/handlebars-helpers') }))
 app.set('view engine', 'handlebars')
@@ -47,6 +49,8 @@ app.use((req, res, next) => {
   res.locals.isAuthenticated = req.isAuthenticated()
   next()
 })
+
+app.use('/api-document', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
