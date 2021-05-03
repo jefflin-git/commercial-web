@@ -4,6 +4,7 @@
 - Handlebars as view engine
 - MySQL as database
 - Third party API to handle transactions: NewebPay
+- Have API interface
 
 ## Features
 ![首頁畫面](https://i.imgur.com/KWERxAG.jpg)
@@ -30,6 +31,9 @@ Admin role is created by developer, visitor/user cannot register for Admin.
 - able to view, add, edit and remove products
 - able to view all orders and their status
 - able to cancel the orders
+
+## API document
+https://commercial-web.herokuapp.com/api-document
 
 ## Installation and Execution
 1. Clone this repository
