@@ -13,5 +13,97 @@
   ],
   "consumes": [],
   "produces": [],
-  "paths": {}
+  "paths": {
+    "/api/signup": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "使用者註冊",
+        "parameters": [
+          {
+            "name": "description",
+            "in": "body",
+            "type": "object",
+            "description": "user registration data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "account": {
+                  "type": "string",
+                  "example": "account"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "example@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "12345678"
+                },
+                "checkPassword": {
+                  "type": "string",
+                  "example": "12345678"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "example"
+                }
+              }
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "回傳success物件",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "success message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "所有欄位必填, password要等於checkPassword, 信箱重複",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "所有欄位必填。"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
 }
