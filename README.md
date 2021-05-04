@@ -33,7 +33,7 @@ Admin role is created by developer, visitor/user cannot register for Admin.
 - able to cancel the orders
 
 ## API document
-https://commercial-web.herokuapp.com/api-document
+http://localhost:3000/api-document
 
 ## Installation and Execution
 1. Clone this repository
