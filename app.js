@@ -3,8 +3,8 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const routers = require('./routes')
 
-const swaggerUi = require('swagger-ui-express')
-const swaggerFile = require('./swagger_output.json')
+// const swaggerUi = require('swagger-ui-express')
+// const swaggerFile = require('./swagger_output.json')
 
 const port = process.env.PORT || 3000
 
@@ -50,7 +50,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/api-document', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+// app.use('/api-document', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
